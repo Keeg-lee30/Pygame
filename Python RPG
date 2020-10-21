@@ -1,0 +1,125 @@
+import random
+import time
+
+
+#Starting item > do you wake up with a dagger(would do 3 damage with no crits) or nothing?
+#Lore > you wake up in a dark room with no memories of who you are and how you got there 
+#Setting > dungeon
+#Key objective > escaping dungeon or maybe a boss in end room?
+
+itemDrop = ["healing potion", "mana bomb", ]
+inventory = ["sword", "shield"]
+playerHp = 15
+enemys = ["Slime", "Orc", "Goblin"]
+enemy_attack = random.choice(enemys)
+enemyHp = enemy_attack
+
+
+def printText(sentence):
+    for char in sentence:
+        print(char, end ='', flush=True)
+        time.sleep(.045)
+    print()
+"""
+printText("You awake in a dark dungeon cell with no memories of how you got there, all you have is a sword and shield...")
+printText("You walk over to the cell door finding that it is unlocked")
+printText("As you open the door you discover a monster on the other side!")
+"""
+
+
+#health system
+def fighting():
+    print(enemy_attack, "attacks you!")
+    if enemyHp == "Slime":
+        enemy_health = 5
+    elif enemyHp == "Goblin":
+        enemy_health = 7
+    elif enemyHp == "Orc":
+        enemy_health = 9
+    if enemy_attack == "Slime":
+        enemy_hit = random.randint(1, 3)
+    elif enemy_attack == "Goblin":
+        enemy_hit = random.randint(3, 6)
+    elif enemy_attack == "Orc":
+        enemy_hit = random.randint(6, 9)
+
+    print("Player health:", playerHp)
+    print ("Enemy health:", enemy_health)
+
+    while True:
+
+        print("Inventory:", inventory)
+        item = input("Chose an item from your inventory >> ")
+        if item in inventory:
+            if item == "healing potion":
+                playerHp += 5
+                inventory.remove("healing potion") #removes potion after use
+            if item == "sword":
+                player_hit = random.randint(3, 6)
+                print("Player uses sword!")
+            if item == "shield":
+                player_hit = 0
+                enemy_hit = 0
+                print("The enemy's attack has been blocked!")
+            if item == "mana bomb":
+                player_hit = random.randint(5, 8)
+                inventory.remove("mana bomb") #removes bomb after use
+        else:
+            print("that item is not in your inventory! Your enemy is now stronger")
+            player_hit = random.randint(-3, -1)
+
+        if item in inventory:
+            if item == "sword":
+                print("Player deals", player_hit, "damage with", item, "!")
+                enemy_health -= player_hit
+                print("Enemy health is now:", enemy_health)
+                if enemy_health <= 0:
+                    break
+                print (enemy_attack, "deals", enemy_hit, "damage!")
+                playerHp -= enemy_hit
+                print("Player health is now:", playerHp)
+                if playerHp <= 0:
+                    break
+            else:
+                print (enemy_attack, "deals", enemy_hit, "damage!")
+                playerHp -= enemy_hit
+                print("Player health is now:", playerHp)
+                if playerHp <= 0:
+                    break
+    #Battle over
+    print("The battle is over...")
+    print("Player health:", playerHp)
+    print("Enemy health:", enemy_health)
+
+    #Treasure system
+    if playerHp > 0:
+        print("You have won! The enemy dropped an item! Choose one to add to your inventory...")
+        item = input("'mana bomb' or 'healing potion' >> ")
+        if item == "mana bomb" or item == "healing potion":
+            inventory.append(item)
+            print("Inventory: ", inventory)
+        else:
+            print("You can not choose that item... go away empty handed!")
+
+def spawnEnemy():
+    chance = random.randrange(1, 3)
+    if chance == 1:
+        
+        
+printText("Your enter the hall...")
+enemy = spawnEnemy()
+if enemy != "none":
+    fighting = True
+else:
+    printText("")
+
+
+
+"""        
+printText("After the battle is over you enter the hall...")
+printText("There are no enemies in sight so you make your way up a stair case in the end of the hall...")
+"""
+
+    
+    
+    
