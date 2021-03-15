@@ -1,0 +1,119 @@
+import pygame
+import random
+from os import path
+
+img_dir = path.join(path.dirname(__file__), 'img')
+snd_dir = path.join(path.dirname(__file__), 'snd')
+
+WIDTH = 700
+HEIGHT = 400
+FPS = 60
+
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+
+pygame.init()
+pygame.mixer.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Rhythm!")
+
+clock = pygame.time.Clock()
+
+bkgr_image = pygame.image.load(path.join(img_dir, "background.jpg")).convert()
+background = pygame.transform.scale(bkgr_image, (WIDTH, HEIGHT))
+background_rect = background.get_rect()
+
+
+font_name = pygame.font.match_font('arial')
+def draw_text(surf, text, size, x, y):
+    font = pygame.font.Font(font_name, size)
+    text_surface = font.render(text, True, BLACK)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surf.blit(text_surface, text_rect)
+
+"""def show_start_screen():
+
+    screen.fill(WHITE)
+    draw_text(screen, "Rhythm!", 64, WIDTH / 2, HEIGHT / 4)
+    draw_text(screen, "Press the matching arrow key when the arrows hit the line", 22, WIDTH / 2, HEIGHT / 2)
+    draw_text(screen, "Press the spacebar to begin...", 18, WIDTH / 2, HEIGHT * 3 / 4)
+    pygame.display.flip()
+
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.K_SPACE:
+                print("Key pressed to start game!")
+                waiting = False
+"""
+"""class Player(pygame.sprite.Sprite):
+    def __init__(self):
+       pygame.sprite.Sprite.__init__(self)
+       
+    def update(self):
+    
+"""
+class Mob(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image_orig = random.choice(Notes_images)
+        self.image_orig.set_colorkey(BLACK)
+        self.image = self.image_orig.copy()
+        self.image = pygame.transform.scale(self.image, (100, 100))
+        self.rect = self.image.get_rect()
+        self.rect.y = random.randrange(-100, 350)
+        self.rect.x = WIDTH
+        self.speedx = random.randrange(-5, -1)
+        
+            
+    def update(self):
+        self.rect.x += self.speedx
+        if self.rect.left < -350:
+            self.rect.y = random.randrange(-100, 350)
+            self.speedx = random.randrange(-5, -1)
+
+
+Notes_images = []
+Notes_list = ['Note_1.png','Note_2.png','Note_3.png','Note_4.png']
+
+for img in Notes_list:
+                Notes_images.append(pygame.image.load(path.join(img_dir, img)).convert())
+
+all_sprites = pygame.sprite.Group()
+mobs = pygame.sprite.Group()
+for i in range(4):
+    m = Mob()
+    all_sprites.add(m)
+    mobs.add(m)
+score = 0
+
+running = True
+while running:
+    
+    clock.tick(FPS)
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+
+    all_sprites.update()
+
+    screen.blit(background, background_rect)
+    all_sprites.draw(screen)
+
+    pygame.display.flip()
+
+pygame.quit()
+
+
+            
