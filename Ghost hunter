@@ -1,0 +1,24 @@
+'''
+Ghost Hunter Game
+Find the ghost in the haunted forest
+'''
+
+import random
+
+print("~~~Ghost Hunter~~~")
+print("Enter a number btw 0 and 3 to find a ghost.")
+
+#variables
+#          0    1    2    3
+forest = ["*", "*", "*", "*"]
+ghost = random.randrange(0, 4)
+
+#prints all the trees in forest
+for tree in forest:
+  print(tree)
+
+userGuess = input(">> ")
+
+#if user guesses the right tree they win and the code end
+if userGuess == tree:
+  print("You found the ghost!")
