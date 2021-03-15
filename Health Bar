@@ -1,0 +1,114 @@
+import pygame
+import random
+from os import path
+import sys
+import os
+
+img_dir = path.join(path.dirname(__file__), 'img')
+snd_dir = path.join(path.dirname(__file__), 'snd')
+
+WIDTH = 800
+HEIGHT = 800
+FPS = 60
+
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+BROWN = (139, 69, 19)
+
+pygame.init()
+pygame.mixer.init()
+pygame.mixer.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+clock = pygame.time.Clock()
+
+font_name = pygame.font.match_font('arial')
+def draw_text(surf, text, size, x, y):
+    font = pygame.font.Font(font_name, size)
+    text_surface = font.render(text, True, WHITE)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surf.blit(text_surface, text_rect)
+
+def newmob():
+    m = Mob()
+    all_sprites.add(m)
+    mobs.add(m)
+
+def draw_shield_bar(surf, x, y, pct):
+    if pct < 0:
+        pct = 0
+    BAR_LENGTH = 100
+    BAR_HEIGHT = 10
+    fill = (pct / 100) * BAR_LENGTH
+    outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
+    fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+    pygame.draw.rect(surf, GREEN, fill_rect)
+    pygame.draw.rect(surf, WHITE, outline_rect, 2)
+
+class notehits(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((20, 20))
+        self.image.fill(BLACK)
+        self.rect = self.image.get_rect()
+        
+
+    def update(self):
+        self.speedx = 0
+        mouseState = pygame.mouse.get_pressed()
+        if mouseState[0] == 1:
+            pos = pygame.mouse.get_pos()
+            mouse
+
+class Mob(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = random.choice(notes_images)
+        self.image.set_colorkey(BLACK)
+        #self.image = self.image_copy()
+        self.image = pygame.transform.scale(self.image, (115, 115))
+        self.rect = self.image.get_rect()
+        self.rect.y = random.randrange(150, 650)
+        self.rect.x = random.randrange(150, 650)
+    
+    def update(self):
+        self.speedx = 0
+
+
+notes_images = []
+notes_list = ['note_1.png','note_2.png','note_3.png','note_4.png']
+
+for img in notes_list:
+    notes_images.append(pygame.image.load(os.path.join(img_dir, img)).convert())
+
+all_sprites = pygame.sprite.Group()
+mobs = pygame.sprite.Group()
+notehits = pygame.sprite.Group()
+for i in range(8):
+    newmob()
+    
+score = 0
+
+start = True
+running = True
+while running:
+
+    if start:
+        show_start_screen()
+        start = False
+
+    clock.tick(FPS)
+
+    all_sprites.update()
+    screen.fill(WHITE)
+    all_sprites.draw(screen)
+    #draw_text(screen, str(score), 18, WIDTH / 2, 10)
+    #draw_shield_bar(screen, 5, 5, player.shield)
+    pygame.display.flip()
+
+pygame.quit()
