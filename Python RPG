@@ -21,7 +21,7 @@ def printText(sentence):
         time.sleep(.045)
     print()
 """
-printText("You awake in a dark dungeon cell with no memories of how you got there, all you have is a sword and shield...")
+printText("You awake in a dark dungeon cell with no memory of how you got there, all you have is a sword and shield...")
 printText("You walk over to the cell door finding that it is unlocked")
 printText("As you open the door you discover a monster on the other side!")
 """
